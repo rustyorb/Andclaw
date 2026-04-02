@@ -25,8 +25,8 @@ import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.andforce.andclaw.databinding.ActivityCameraBinding
 import com.andforce.andclaw.R
+import com.andforce.andclaw.databinding.ActivityCameraBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

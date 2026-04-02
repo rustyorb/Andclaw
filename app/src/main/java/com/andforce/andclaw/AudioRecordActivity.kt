@@ -14,8 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.andforce.andclaw.databinding.ActivityAudioRecordBinding
 import com.andforce.andclaw.R
+import com.andforce.andclaw.databinding.ActivityAudioRecordBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
