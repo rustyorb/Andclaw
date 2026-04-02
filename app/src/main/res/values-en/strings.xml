@@ -125,6 +125,7 @@
     <string name="action_test_grant_perm_title">Auto-grant All Permissions</string>
     <string name="action_test_grant_perm_msg">Will grant all declared runtime permissions to the target app</string>
     <string name="action_test_btn_grant">Grant</string>
+    <string name="action_test_text_input_hint">Enter text to inject</string>
     <string name="action_test_text_input_title">Text Input Test</string>
     <string name="action_test_btn_inject">Inject</string>
     <string name="btn_cancel">Cancel</string>

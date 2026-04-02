@@ -217,7 +217,7 @@ class ActionTestActivity : AppCompatActivity() {
             }
 
             val editText = EditText(this).apply {
-                hint = getString(R.string.btn_text_inject)
+                hint = getString(R.string.action_test_text_input_hint)
                 setText("Hello from Andclaw!")
             }
             MaterialAlertDialogBuilder(this)

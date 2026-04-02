@@ -1406,7 +1406,7 @@
     <string name="clawbot_too_many_retries">QR code expired too many times, please try again later</string>
     <string name="clawbot_login_failed">Login failed: %s</string>
     <string name="clawbot_login_cancelled">Login cancelled</string>
-    <string name="feishu_config_label">Lark Config</string>
+    <string name="feishu_status_format">Status: %s</string>
     <string name="feishu_app_id_hint">Lark App ID</string>
     <string name="feishu_app_secret_hint">Lark App Secret</string>
     <string name="btn_test_feishu">Test Lark Connection</string>

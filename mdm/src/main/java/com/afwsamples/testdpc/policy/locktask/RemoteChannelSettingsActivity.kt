@@ -436,7 +436,7 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
             BridgeStatus.CONNECTED -> getString(R.string.status_connected) + " ✓"
             BridgeStatus.DISCONNECTED -> getString(R.string.status_disconnected)
         }
-        return "Status: $s"
+        return getString(R.string.feishu_status_format, s)
     }
 
     // endregion

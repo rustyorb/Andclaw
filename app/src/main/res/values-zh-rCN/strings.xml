@@ -125,6 +125,7 @@
     <string name="action_test_grant_perm_title">自动授权全部权限</string>
     <string name="action_test_grant_perm_msg">将授予目标应用所有已声明的运行时权限</string>
     <string name="action_test_btn_grant">授权</string>
+    <string name="action_test_text_input_hint">输入要注入的文本</string>
     <string name="action_test_text_input_title">文本输入测试</string>
     <string name="action_test_btn_inject">注入</string>
     <string name="btn_cancel">取消</string>
