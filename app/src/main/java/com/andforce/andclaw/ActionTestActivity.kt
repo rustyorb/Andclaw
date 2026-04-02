@@ -135,7 +135,7 @@ class ActionTestActivity : AppCompatActivity() {
                     try {
                         val config = AgentController.config
                         val response = Utils.callLLMWithHistory(
-                            "描述当前屏幕内容", screenData, emptyList(), config,
+                            "Describe the current screen content", screenData, emptyList(), config,
                             this@ActionTestActivity, screenshotBase64 = base64
                         )
                         withContext(Dispatchers.Main) {
