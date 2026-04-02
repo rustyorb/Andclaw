@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.andforce.andclaw.databinding.ActivityAudioRecordBinding
+import com.andforce.andclaw.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -88,14 +89,14 @@ class AudioRecordActivity : AppCompatActivity() {
         ) {
             onPermissionReady()
         } else {
-            lastResult = "录音权限被拒绝"
-            Toast.makeText(this, "需要录音权限", Toast.LENGTH_SHORT).show()
+            lastResult = getString(R.string.audio_permission_denied)
+            Toast.makeText(this, getString(R.string.audio_permission_required), Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
     private fun onPermissionReady() {
-        updateStatus("录音就绪")
+        updateStatus(getString(R.string.audio_record_ready))
         pendingAction?.let {
             pendingAction = null
             executeAction(it)
@@ -116,7 +117,7 @@ class AudioRecordActivity : AppCompatActivity() {
 
     private fun startRecording() {
         if (isRecording) {
-            updateStatus("已在录音中")
+            updateStatus(getString(R.string.audio_record_already_in_progress))
             return
         }
 
@@ -142,12 +143,12 @@ class AudioRecordActivity : AppCompatActivity() {
             recordStartTime = System.currentTimeMillis()
             timerHandler.post(timerRunnable)
 
-            lastResult = "录音已开始"
-            updateStatus("正在录音...")
+            lastResult = getString(R.string.audio_record_started)
+            updateStatus(getString(R.string.audio_record_in_progress))
             binding.btnStartRecord.isEnabled = false
             binding.btnStopRecord.isEnabled = true
         } catch (e: Exception) {
-            val msg = "录音启动失败: ${e.message}"
+            val msg = getString(R.string.audio_record_start_failed, e.message)
             lastResult = msg
             updateStatus(msg)
         }
@@ -155,11 +156,11 @@ class AudioRecordActivity : AppCompatActivity() {
 
     private fun stopRecording() {
         if (!isRecording) {
-            updateStatus("当前没有在录音")
+            updateStatus(getString(R.string.audio_record_not_in_progress))
             return
         }
 
-        updateStatus("正在停止录音...")
+        updateStatus(getString(R.string.audio_record_stopping))
         timerHandler.removeCallbacks(timerRunnable)
 
         try {
@@ -191,7 +192,7 @@ class AudioRecordActivity : AppCompatActivity() {
                     java.io.File(filePath).delete()
                 }
 
-                val msg = "录音完成: Music/Andclaw/$fileName"
+                val msg = getString(R.string.audio_record_complete, fileName)
                 lastResult = msg
                 updateStatus(msg)
             }
@@ -200,7 +201,7 @@ class AudioRecordActivity : AppCompatActivity() {
             binding.btnStopRecord.isEnabled = false
             binding.root.postDelayed({ finish() }, 1500)
         } catch (e: Exception) {
-            val msg = "停止录音失败: ${e.message}"
+            val msg = getString(R.string.audio_record_stop_failed, e.message)
             lastResult = msg
             updateStatus(msg)
             isRecording = false
