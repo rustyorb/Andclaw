@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.afwsamples.testdpc.databinding.ActivityAiSettingsBinding
+import com.afwsamples.testdpc.R
 import com.base.services.BridgeStatus
 import com.base.services.ClawBotLoginStatus
 import com.base.services.IAiConfigService
@@ -81,7 +82,7 @@ class AiSettingsActivity : AppCompatActivity() {
     ): String {
         val mode = when (active) {
             RemoteChannel.TELEGRAM -> "Telegram"
-            RemoteChannel.FEISHU -> "飞书"
+            RemoteChannel.FEISHU -> getString(R.string.feishu_label)
             RemoteChannel.CLAWBOT -> "ClawBot"
         }
         val detail = when (active) {
@@ -89,28 +90,28 @@ class AiSettingsActivity : AppCompatActivity() {
             RemoteChannel.FEISHU -> bridgeShort(fs)
             RemoteChannel.CLAWBOT -> formatClawBotShort(cb, cbLogin)
         }
-        return "当前：$mode · $detail"
+        return getString(R.string.channel_status_format, mode, detail)
     }
 
     private fun bridgeShort(s: BridgeStatus): String = when (s) {
-        BridgeStatus.NOT_CONFIGURED -> "未配置"
-        BridgeStatus.STOPPED -> "已停止"
-        BridgeStatus.CONNECTED -> "已连接"
-        BridgeStatus.DISCONNECTED -> "未连接"
+        BridgeStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+        BridgeStatus.STOPPED -> getString(R.string.status_stopped)
+        BridgeStatus.CONNECTED -> getString(R.string.status_connected)
+        BridgeStatus.DISCONNECTED -> getString(R.string.status_disconnected)
     }
 
     private fun formatClawBotShort(bridge: BridgeStatus, login: ClawBotLoginStatus): String {
         val b = bridgeShort(bridge)
         val l = when (login) {
-            ClawBotLoginStatus.NOT_CONFIGURED -> "未配置"
-            ClawBotLoginStatus.LOGIN_REQUIRED -> "需登录"
-            ClawBotLoginStatus.QR_READY -> "二维码就绪"
-            ClawBotLoginStatus.WAITING_CONFIRM -> "待确认"
-            ClawBotLoginStatus.CONNECTED -> "已登录"
-            ClawBotLoginStatus.DISCONNECTED -> "已断开"
-            ClawBotLoginStatus.STOPPED -> "已停止"
+            ClawBotLoginStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+            ClawBotLoginStatus.LOGIN_REQUIRED -> getString(R.string.login_status_need_login)
+            ClawBotLoginStatus.QR_READY -> getString(R.string.login_status_qr_ready)
+            ClawBotLoginStatus.WAITING_CONFIRM -> getString(R.string.login_status_waiting_confirm)
+            ClawBotLoginStatus.CONNECTED -> getString(R.string.login_status_logged_in)
+            ClawBotLoginStatus.DISCONNECTED -> getString(R.string.status_disconnected)
+            ClawBotLoginStatus.STOPPED -> getString(R.string.status_stopped)
         }
-        return "桥接 $b · 登录 $l"
+        return getString(R.string.bridge_status_format_kiosk, b, l)
     }
 
     private fun setupProviderSpinner() {
@@ -172,12 +173,12 @@ class AiSettingsActivity : AppCompatActivity() {
         val apiKey = binding.etApiKey.text.toString().trim()
 
         if (baseUrl.isEmpty() || apiKey.isEmpty()) {
-            showModelListResult("请先填写 Base URL 和 API Key", isError = true)
+            showModelListResult(getString(R.string.err_fill_base_url_api_key), isError = true)
             return
         }
 
         binding.btnFetchModels.isEnabled = false
-        showModelListResult("正在获取模型列表...", isError = false)
+        showModelListResult(getString(R.string.fetching_models), isError = false)
 
         lifecycleScope.launch {
             val result = queryModels(provider, baseUrl, apiKey)
@@ -193,7 +194,7 @@ class AiSettingsActivity : AppCompatActivity() {
                 )
                 binding.etModel.setAdapter(adapter)
                 binding.etModel.showDropDown()
-                showModelListResult("获取到 ${models.size} 个可用模型", isError = false)
+                showModelListResult(getString(R.string.models_fetched, models.size), isError = false)
             }
         }
     }
@@ -233,10 +234,10 @@ class AiSettingsActivity : AppCompatActivity() {
                     .sorted()
                 models to null
             } else {
-                emptyList<String>() to "获取失败 (HTTP $code)\n$respBody"
+                emptyList<String>() to getString(R.string.models_fetch_failed_http, code, respBody)
             }
         } catch (e: Exception) {
-            emptyList<String>() to "获取失败: ${e.message}"
+            emptyList<String>() to getString(R.string.models_fetch_failed, e.message)
         }
     }
 
@@ -255,12 +256,12 @@ class AiSettingsActivity : AppCompatActivity() {
         val model = binding.etModel.text.toString().trim()
 
         if (baseUrl.isEmpty() || apiKey.isEmpty() || model.isEmpty()) {
-            showApiResult("请填写完整的 API 配置", isError = true)
+            showApiResult(getString(R.string.err_fill_api_config), isError = true)
             return
         }
 
         binding.btnTestApi.isEnabled = false
-        showApiResult("正在测试连接...", isError = false)
+        showApiResult(getString(R.string.testing_connection), isError = false)
 
         lifecycleScope.launch {
             val isKimiCode = provider.equals("Kimi Code", ignoreCase = true)
@@ -318,12 +319,12 @@ class AiSettingsActivity : AppCompatActivity() {
                             .firstOrNull { it.getString("type") == "text" }
                             ?.getString("text") ?: ""
                     }
-                "连接成功 ✓\n模型回复: ${text.take(100)}" to false
+                getString(R.string.connection_success, text.take(100)) to false
             } else {
-                "连接失败 (HTTP $code)\n$respBody" to true
+                getString(R.string.connection_failed_http, code, respBody) to true
             }
         } catch (e: Exception) {
-            "连接失败: ${e.message}" to true
+            getString(R.string.connection_failed, e.message) to true
         }
     }
 
@@ -370,12 +371,12 @@ class AiSettingsActivity : AppCompatActivity() {
                     .getJSONObject(0)
                     .getJSONObject("message")
                     .getString("content")
-                "连接成功 ✓\n模型回复: ${text.take(100)}" to false
+                getString(R.string.connection_success, text.take(100)) to false
             } else {
-                "连接失败 (HTTP $code)\n$respBody" to true
+                getString(R.string.connection_failed_http, code, respBody) to true
             }
         } catch (e: Exception) {
-            "连接失败: ${e.message}" to true
+            getString(R.string.connection_failed, e.message) to true
         }
     }
 

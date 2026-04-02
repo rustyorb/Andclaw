@@ -65,7 +65,7 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
             channelConfig.clearClawBotAuthState()
             remoteBridge.startEligibleBridges()
             hideQrCode()
-            showClawBotResult("已清除 ClawBot 登录状态", isError = false)
+            showClawBotResult(getString(R.string.clawbot_login_cleared), isError = false)
         }
 
         binding.btnTestFeishu.setOnClickListener { testFeishu() }
@@ -158,8 +158,8 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
     private fun startClawBotQrLogin() {
         cancelClawBotLogin()
         binding.btnClawBotLogin.isEnabled = false
-        binding.btnClawBotLogin.text = "正在获取二维码…"
-        showClawBotResult("正在获取二维码…", isError = false)
+        binding.btnClawBotLogin.text = getString(R.string.clawbot_fetching_qr)
+        showClawBotResult(getString(R.string.clawbot_fetching_qr), isError = false)
         hideQrCode()
 
         clawBotLoginJob = lifecycleScope.launch {
@@ -167,11 +167,11 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                 runClawBotLoginFlow()
             } catch (e: Exception) {
                 if (isActive) {
-                    showClawBotResult("登录失败: ${e.message}", isError = true)
+                    showClawBotResult(getString(R.string.clawbot_login_failed, e.message), isError = true)
                 }
             } finally {
                 binding.btnClawBotLogin.isEnabled = true
-                binding.btnClawBotLogin.text = "扫码登录"
+                binding.btnClawBotLogin.text = getString(R.string.btn_clawbot_login)
             }
         }
     }
@@ -191,15 +191,15 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                 binding.ivClawBotQr.setImageBitmap(qrBitmap)
                 binding.ivClawBotQr.visibility = View.VISIBLE
                 binding.tvClawBotQrHint.visibility = View.VISIBLE
-                binding.tvClawBotQrHint.text = "请打开微信「ClawBot 插件」扫描上方二维码"
-                showClawBotResult("等待扫码…", isError = false)
-                binding.btnClawBotLogin.text = "取消登录"
+                binding.tvClawBotQrHint.text = getString(R.string.clawbot_qr_hint)
+                showClawBotResult(getString(R.string.clawbot_waiting_scan), isError = false)
+                binding.btnClawBotLogin.text = getString(R.string.clawbot_login_cancelled)
                 binding.btnClawBotLogin.isEnabled = true
                 binding.btnClawBotLogin.setOnClickListener {
                     cancelClawBotLogin()
                     hideQrCode()
-                    showClawBotResult("已取消登录", isError = false)
-                    binding.btnClawBotLogin.text = "扫码登录"
+                    showClawBotResult(getString(R.string.clawbot_login_cancelled), isError = false)
+                    binding.btnClawBotLogin.text = getString(R.string.btn_clawbot_login)
                     binding.btnClawBotLogin.setOnClickListener { startClawBotQrLogin() }
                 }
             }
@@ -214,18 +214,18 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                     ClawBotQrPollPhase.WAIT -> { /* keep polling */ }
                     ClawBotQrPollPhase.SCANED -> {
                         withContext(Dispatchers.Main) {
-                            binding.tvClawBotQrHint.text = "已扫码，请在微信上确认…"
-                            showClawBotResult("已扫码，等待确认…", isError = false)
+                            binding.tvClawBotQrHint.text = getString(R.string.clawbot_scanned_confirm)
+                            showClawBotResult(getString(R.string.clawbot_scanned_confirm), isError = false)
                         }
                     }
                     ClawBotQrPollPhase.CONFIRMED -> {
                         withContext(Dispatchers.Main) {
                             hideQrCode()
                             if (pollResult.authState != null) {
-                                showClawBotResult("登录成功 ✓", isError = false)
+                                showClawBotResult(getString(R.string.clawbot_login_success), isError = false)
                                 remoteBridge.startEligibleBridges()
                             } else {
-                                showClawBotResult("登录确认但凭据不完整，请重试", isError = true)
+                                showClawBotResult(getString(R.string.clawbot_incomplete_credentials), isError = true)
                             }
                         }
                         return
@@ -235,7 +235,7 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                         withContext(Dispatchers.Main) {
                             if (qrRefreshCount < maxQrRefresh) {
                                 showClawBotResult(
-                                    "二维码已过期，正在刷新…（第 ${qrRefreshCount}/$maxQrRefresh 次）",
+                                    getString(R.string.clawbot_qr_expired_refresh, qrRefreshCount, maxQrRefresh),
                                     isError = false
                                 )
                             }
@@ -245,7 +245,7 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                     ClawBotQrPollPhase.UNKNOWN -> {
                         withContext(Dispatchers.Main) {
                             hideQrCode()
-                            showClawBotResult("收到未知状态，请重试", isError = true)
+                            showClawBotResult(getString(R.string.clawbot_unknown_status), isError = true)
                         }
                         return
                     }
@@ -257,9 +257,9 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     if (qrRefreshCount >= maxQrRefresh) {
                         hideQrCode()
-                        showClawBotResult("登录超时，请重新扫码", isError = true)
+                        showClawBotResult(getString(R.string.clawbot_login_timeout), isError = true)
                     } else {
-                        showClawBotResult("等待超时，正在刷新二维码…", isError = false)
+                        showClawBotResult(getString(R.string.clawbot_refresh_qr), isError = false)
                     }
                 }
             }
@@ -268,7 +268,7 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
         if (qrRefreshCount >= maxQrRefresh) {
             withContext(Dispatchers.Main) {
                 hideQrCode()
-                showClawBotResult("二维码多次过期，请稍后重试", isError = true)
+                showClawBotResult(getString(R.string.clawbot_too_many_retries), isError = true)
             }
         }
     }
@@ -321,28 +321,28 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
 
     private fun formatClawBotStatusLine(bridge: BridgeStatus, login: ClawBotLoginStatus): String {
         val b = when (bridge) {
-            BridgeStatus.NOT_CONFIGURED -> "未配置"
-            BridgeStatus.STOPPED -> "已停止"
-            BridgeStatus.CONNECTED -> "已连接"
-            BridgeStatus.DISCONNECTED -> "未连接"
+            BridgeStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+            BridgeStatus.STOPPED -> getString(R.string.status_stopped)
+            BridgeStatus.CONNECTED -> getString(R.string.status_connected)
+            BridgeStatus.DISCONNECTED -> getString(R.string.status_disconnected)
         }
         val l = when (login) {
-            ClawBotLoginStatus.NOT_CONFIGURED -> "未配置"
-            ClawBotLoginStatus.LOGIN_REQUIRED -> "需登录"
-            ClawBotLoginStatus.QR_READY -> "二维码就绪"
-            ClawBotLoginStatus.WAITING_CONFIRM -> "待确认"
-            ClawBotLoginStatus.CONNECTED -> "已登录"
-            ClawBotLoginStatus.DISCONNECTED -> "已断开"
-            ClawBotLoginStatus.STOPPED -> "已停止"
+            ClawBotLoginStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+            ClawBotLoginStatus.LOGIN_REQUIRED -> getString(R.string.login_status_need_login)
+            ClawBotLoginStatus.QR_READY -> getString(R.string.login_status_qr_ready)
+            ClawBotLoginStatus.WAITING_CONFIRM -> getString(R.string.login_status_waiting_confirm)
+            ClawBotLoginStatus.CONNECTED -> getString(R.string.login_status_logged_in)
+            ClawBotLoginStatus.DISCONNECTED -> getString(R.string.status_disconnected)
+            ClawBotLoginStatus.STOPPED -> getString(R.string.status_stopped)
         }
-        return "桥接: $b · 登录: $l"
+        return getString(R.string.bridge_status_format, b, l)
     }
 
     private fun updateClawBotLoginButtonText(login: ClawBotLoginStatus) {
         if (clawBotLoginJob?.isActive == true) return
         binding.btnClawBotLogin.text = when (login) {
-            ClawBotLoginStatus.CONNECTED -> "重新登录"
-            else -> "扫码登录"
+            ClawBotLoginStatus.CONNECTED -> getString(R.string.btn_re_login)
+            else -> getString(R.string.btn_clawbot_login)
         }
     }
 
@@ -361,12 +361,12 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
     private fun testTelegram() {
         val token = binding.etTgToken.text.toString().trim()
         if (token.isEmpty()) {
-            showTgResult("请填写 Telegram Bot Token", isError = true)
+            showTgResult(getString(R.string.tg_err_fill_token), isError = true)
             return
         }
 
         binding.btnTestTg.isEnabled = false
-        showTgResult("正在测试连接...", isError = false)
+        showTgResult(getString(R.string.tg_testing), isError = false)
 
         lifecycleScope.launch {
             val result = testTgGetMe(token)
@@ -395,15 +395,15 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                         val bot = json.getJSONObject("result")
                         val name = bot.optString("first_name", "")
                         val username = bot.optString("username", "")
-                        "连接成功 ✓\nBot: $name (@$username)" to false
+                        getString(R.string.tg_success, name, username) to false
                     } else {
-                        "Token 无效: ${json.optString("description")}" to true
+                        getString(R.string.tg_invalid_token, json.optString("description")) to true
                     }
                 } else {
-                    "连接失败 (HTTP $code)\n$respBody" to true
+                    getString(R.string.tg_failed_http, code, respBody) to true
                 }
             } catch (e: Exception) {
-                "连接失败: ${e.message}" to true
+                getString(R.string.connection_failed, e.message) to true
             }
         }
 
