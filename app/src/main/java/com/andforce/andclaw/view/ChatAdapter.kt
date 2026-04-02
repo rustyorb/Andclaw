@@ -159,12 +159,12 @@ class ChatAdapter(
             if (action != null) {
                 binding.divider.visibility = View.VISIBLE
                 binding.tvActionType.visibility = View.VISIBLE
-                binding.tvActionType.text = "执行操作: ${action.type.uppercase()}"
+                binding.tvActionType.text = itemView.context.getString(R.string.chat_action_label, action.type.uppercase())
 
                 when (action.type) {
                     "click" -> {
                         binding.tvActionDetail.visibility = View.VISIBLE
-                        binding.tvActionDetail.text = "坐标: (${action.x}, ${action.y})"
+                        binding.tvActionDetail.text = itemView.context.getString(R.string.chat_action_coords, action.x.toString(), action.y.toString())
                         binding.tvActionDetail.setTextColor(
                             ContextCompat.getColor(ctx, R.color.text_secondary)
                         )

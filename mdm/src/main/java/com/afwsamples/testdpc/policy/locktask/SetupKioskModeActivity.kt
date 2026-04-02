@@ -121,7 +121,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
             connectivityManager?.let { connectivityManager ->
                 deviceStatusViewModel.observeNetworkState(connectivityManager).collect { isConnected ->
                     binding?.apply {
-                        networkStatus.text = if (isConnected) "已连接" else "未连接"
+                        networkStatus.text = if (isConnected) getString(R.string.network_connected) else getString(R.string.network_not_connected)
                         setupNetwork.visibility = if (!isConnected) View.VISIBLE else View.GONE
                     }
                 }
@@ -131,7 +131,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
         // 如果网络已经链接，设置状态
         if (deviceStatusViewModel.isNetworkConnected(connectivityManager)) {
             binding?.apply {
-                networkStatus.text = "已连接"
+                networkStatus.text = getString(R.string.network_connected)
                 setupNetwork.visibility = View.GONE
             }
         }
@@ -161,8 +161,8 @@ open class SetupKioskModeActivity : AppCompatActivity() {
                 }
 
                 binding?.apply {
-                    deviceOwnerStatus.text = if (isDeviceOwner) "已开启" else "未开启"
-                    setupDeviceOwner.text = if (isDeviceOwner) "移除设备管理员" else "设置设备管理员"
+                    deviceOwnerStatus.text = if (isDeviceOwner) getString(R.string.device_owner_enabled) else getString(R.string.device_owner_not_enabled)
+                    setupDeviceOwner.text = if (isDeviceOwner) getString(R.string.btn_remove_device_owner) else getString(R.string.btn_setup_device_owner)
                     setupDeviceOwner.visibility = View.VISIBLE
                 }
 
@@ -242,24 +242,24 @@ open class SetupKioskModeActivity : AppCompatActivity() {
     }
 
     private fun bridgeStatusLabel(status: BridgeStatus): String = when (status) {
-        BridgeStatus.NOT_CONFIGURED -> "未配置"
-        BridgeStatus.STOPPED -> "已停止"
-        BridgeStatus.CONNECTED -> "已连接"
-        BridgeStatus.DISCONNECTED -> "未连接"
+        BridgeStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+        BridgeStatus.STOPPED -> getString(R.string.status_stopped)
+        BridgeStatus.CONNECTED -> getString(R.string.status_connected)
+        BridgeStatus.DISCONNECTED -> getString(R.string.status_disconnected)
     }
 
     private fun formatClawBotKioskLine(bridge: BridgeStatus, login: ClawBotLoginStatus): String {
         val b = bridgeStatusLabel(bridge)
         val l = when (login) {
-            ClawBotLoginStatus.NOT_CONFIGURED -> "未配置"
-            ClawBotLoginStatus.LOGIN_REQUIRED -> "需登录"
-            ClawBotLoginStatus.QR_READY -> "二维码就绪"
-            ClawBotLoginStatus.WAITING_CONFIRM -> "待确认"
-            ClawBotLoginStatus.CONNECTED -> "已登录"
-            ClawBotLoginStatus.DISCONNECTED -> "已断开"
-            ClawBotLoginStatus.STOPPED -> "已停止"
+            ClawBotLoginStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+            ClawBotLoginStatus.LOGIN_REQUIRED -> getString(R.string.login_status_need_login)
+            ClawBotLoginStatus.QR_READY -> getString(R.string.login_status_qr_ready)
+            ClawBotLoginStatus.WAITING_CONFIRM -> getString(R.string.login_status_waiting_confirm)
+            ClawBotLoginStatus.CONNECTED -> getString(R.string.login_status_logged_in)
+            ClawBotLoginStatus.DISCONNECTED -> getString(R.string.status_disconnected)
+            ClawBotLoginStatus.STOPPED -> getString(R.string.status_stopped)
         }
-        return "桥接: $b · 登录: $l"
+        return getString(R.string.bridge_status_format_kiosk, b, l)
     }
 
     override fun onResume() {
@@ -270,9 +270,9 @@ open class SetupKioskModeActivity : AppCompatActivity() {
 
     private fun showRemoveDeviceOwnerDialog() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("移除设备管理员")
-            .setMessage("确定要移除设备管理员吗？移除后需要重新设置。")
-            .setPositiveButton("确定") { _, _ ->
+            .setTitle(R.string.dialog_remove_device_owner_title)
+            .setMessage(R.string.dialog_remove_device_owner_msg)
+            .setPositiveButton(R.string.btn_confirm) { _, _ ->
 
                 AppUtils.showAllHideApps(this)
 
@@ -280,7 +280,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
                     {
                         Toast.makeText(
                             this,
-                            "设备管理员已移除",
+                            getString(R.string.device_owner_removed),
                             Toast.LENGTH_SHORT
                         ).show()
                         kioskViewModule.updateDeviceOwnerState(false)
@@ -288,13 +288,13 @@ open class SetupKioskModeActivity : AppCompatActivity() {
                     { e: Exception? ->
                         Toast.makeText(
                             this,
-                            "移除设备管理员失败: $e",
+                            getString(R.string.remove_device_owner_failed, e),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 )
             }
-            .setNegativeButton("取消", null)
+            .setNegativeButton(R.string.cancel, null)
             .setCancelable(false)
             .show()
     }
@@ -302,17 +302,12 @@ open class SetupKioskModeActivity : AppCompatActivity() {
     private fun showDeviceOwnerInstructions() {
         val componentName = DeviceAdminReceiver.getReceiverComponentName(this).flattenToShortString()
         usbEnableDebugAlertDialog = MaterialAlertDialogBuilder(this)
-            .setTitle("设置设备管理员")
-            .setMessage("请按照以下步骤操作：\n\n" +
-                    "1. 打开「设置  >  关于手机」\n" +
-                    "2. 连续点击「版本号」7 次开启开发者选项\n" +
-                    "3. 在「开发者选项」中开启 USB 调试\n" +
-                    "4. 连接电脑，在终端执行以下命令：\n\n" +
-                    "adb shell dpm set-device-owner $componentName")
-            .setPositiveButton("打开开发者选项") { _, _ ->
+            .setTitle(R.string.dialog_setup_device_owner_title)
+            .setMessage(getString(R.string.dialog_setup_device_owner_msg) + "adb shell dpm set-device-owner $componentName")
+            .setPositiveButton(R.string.btn_open_developer_options) { _, _ ->
                 startActivity(Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS))
             }
-            .setNegativeButton("取消", null)
+            .setNegativeButton(R.string.cancel, null)
             .setCancelable(false)
             .show()
     }
@@ -320,8 +315,8 @@ open class SetupKioskModeActivity : AppCompatActivity() {
     private fun checkRequiredPermissions() {
         if (!isAccessibilityServiceEnabled() || !isAccessibilityServiceConnected()) {
             showPermissionGuideDialog(
-                title = "需要开启辅助功能",
-                message = "Andclaw 需要辅助功能服务来读取屏幕并执行操作，请在设置中找到 Andclaw 并开启。",
+                title = getString(R.string.dialog_need_accessibility_title),
+                message = getString(R.string.dialog_need_accessibility_msg),
                 intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
             )
             return
@@ -329,8 +324,8 @@ open class SetupKioskModeActivity : AppCompatActivity() {
 
         if (requiresManageAllFilesAccessPermission() && !Environment.isExternalStorageManager()) {
             showPermissionGuideDialog(
-                title = "需要文件访问权限",
-                message = "Andclaw 需要「所有文件访问」权限来读取下载目录中的 APK 文件并执行静默安装。",
+                title = getString(R.string.dialog_need_storage_title),
+                message = getString(R.string.dialog_need_storage_msg),
                 intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
             )
             return
@@ -338,8 +333,8 @@ open class SetupKioskModeActivity : AppCompatActivity() {
 
         if (!Settings.canDrawOverlays(this)) {
             showPermissionGuideDialog(
-                title = "需要悬浮窗权限",
-                message = "Andclaw 需要「显示在其他应用上层」权限来显示急停悬浮按钮，请在设置中找到 Andclaw 并允许。",
+                title = getString(R.string.dialog_need_overlay_title),
+                message = getString(R.string.dialog_need_overlay_msg),
                 intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
             )
             return
@@ -387,8 +382,8 @@ open class SetupKioskModeActivity : AppCompatActivity() {
             .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton("去设置") { _, _ -> startActivity(intent) }
-            .setNegativeButton("暂时跳过", null)
+            .setPositiveButton(R.string.btn_go_to_settings) { _, _ -> startActivity(intent) }
+            .setNegativeButton(R.string.btn_skip_for_now, null)
             .show()
     }
 
@@ -411,7 +406,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "启动对话页失败: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.start_chat_failed, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -420,7 +415,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "启动测试页失败: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.start_test_failed, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 

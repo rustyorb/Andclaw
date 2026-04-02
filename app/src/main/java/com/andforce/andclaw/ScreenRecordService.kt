@@ -1,6 +1,5 @@
 package com.andforce.andclaw
 
-import android.R
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,6 +17,7 @@ import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
+import com.andforce.andclaw.R
 import java.io.File
 
 class ScreenRecordService : Service() {
@@ -151,7 +151,7 @@ class ScreenRecordService : Service() {
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
-            CHANNEL_ID, "录屏服务",
+            CHANNEL_ID, getString(R.string.notif_screen_record_channel),
             NotificationManager.IMPORTANCE_LOW
         )
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
@@ -160,9 +160,9 @@ class ScreenRecordService : Service() {
 
     private fun buildNotification(): Notification =
         Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("Andclaw 录屏中")
-            .setContentText("正在录制屏幕...")
-            .setSmallIcon(R.drawable.ic_media_play)
+            .setContentTitle(getString(R.string.notif_screen_record_title))
+            .setContentText(getString(R.string.notif_screen_record_text))
+            .setSmallIcon(android.R.drawable.ic_media_play)
             .setOngoing(true)
             .build()
 

@@ -25,6 +25,7 @@ import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.andforce.andclaw.R
 import com.andforce.andclaw.databinding.ActivityCameraBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -93,8 +94,8 @@ class CameraActivity : AppCompatActivity() {
         ) {
             initCamera()
         } else {
-            lastResult = "相机权限被拒绝"
-            Toast.makeText(this, "需要相机权限", Toast.LENGTH_SHORT).show()
+            lastResult = getString(R.string.camera_permission_denied)
+            Toast.makeText(this, getString(R.string.camera_permission_required), Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -124,7 +125,7 @@ class CameraActivity : AppCompatActivity() {
             )
 
             cameraReady = true
-            updateStatus("相机就绪")
+            updateStatus(getString(R.string.camera_ready))
 
             pendingAction?.let {
                 pendingAction = null
@@ -149,7 +150,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun takePhoto() {
         val capture = imageCapture ?: return
-        updateStatus("正在拍照...")
+        updateStatus(getString(R.string.camera_taking_photo))
 
         val fileName = "photo_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())}.jpg"
         val contentValues = ContentValues().apply {
@@ -167,14 +168,14 @@ class CameraActivity : AppCompatActivity() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     lastPhotoUri = output.savedUri
-                    val msg = "拍照完成: Pictures/Andclaw/$fileName"
+                    val msg = getString(R.string.camera_photo_done, fileName)
                     lastResult = msg
                     updateStatus(msg)
                     binding.root.postDelayed({ finish() }, 1500)
                 }
 
                 override fun onError(exc: ImageCaptureException) {
-                    val msg = "拍照失败: ${exc.message}"
+                    val msg = getString(R.string.camera_photo_failed, exc.message)
                     lastResult = msg
                     updateStatus(msg)
                 }
@@ -186,11 +187,11 @@ class CameraActivity : AppCompatActivity() {
     private fun startVideoRecording() {
         val vc = videoCapture ?: return
         if (activeRecording != null) {
-            updateStatus("已在录像中")
+            updateStatus(getString(R.string.camera_video_in_progress))
             return
         }
 
-        updateStatus("正在开始录像...")
+        updateStatus(getString(R.string.camera_video_starting))
 
         val fileName = "video_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())}.mp4"
         val contentValues = ContentValues().apply {
@@ -215,8 +216,8 @@ class CameraActivity : AppCompatActivity() {
             .start(ContextCompat.getMainExecutor(this)) { event ->
                 when (event) {
                     is VideoRecordEvent.Start -> {
-                        lastResult = "录像已开始"
-                        updateStatus("正在录像...")
+                        lastResult = getString(R.string.camera_video_started)
+                        updateStatus(getString(R.string.camera_video_in_progress_status))
                         binding.btnStartVideo.isEnabled = false
                         binding.btnStopVideo.isEnabled = true
                         binding.btnTakePhoto.isEnabled = false
@@ -224,10 +225,10 @@ class CameraActivity : AppCompatActivity() {
 
                     is VideoRecordEvent.Finalize -> {
                         val msg = if (event.error != VideoRecordEvent.Finalize.ERROR_NONE) {
-                            "录像失败: ${event.cause?.message}"
+                            getString(R.string.camera_video_failed, event.cause?.message)
                         } else {
                             lastVideoUri = event.outputResults.outputUri
-                            "录像完成: Movies/Andclaw/$fileName"
+                            getString(R.string.camera_video_done, fileName)
                         }
                         lastResult = msg
                         updateStatus(msg)
@@ -244,10 +245,10 @@ class CameraActivity : AppCompatActivity() {
     private fun stopVideoRecording() {
         val rec = activeRecording
         if (rec == null) {
-            updateStatus("当前没有在录像")
+            updateStatus(getString(R.string.camera_video_not_in_progress))
             return
         }
-        updateStatus("正在停止录像...")
+        updateStatus(getString(R.string.camera_video_stopping))
         rec.stop()
     }
 

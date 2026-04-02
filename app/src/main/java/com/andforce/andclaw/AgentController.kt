@@ -83,21 +83,21 @@ object AgentController : ITgBridgeService, IAiConfigService {
     private lateinit var chatDao: ChatMessageDao
 
     private fun screenshotSuccessMessage(session: RemoteSession?, fileName: String): String {
-        val base = "截图已保存：Pictures/Andclaw/$fileName"
+        val base = "Screenshot saved / 截图已保存：Pictures/Andclaw/$fileName"
         return base + when (session?.channel) {
-            RemoteChannel.TELEGRAM -> "（远程已发送到 Telegram）"
-            RemoteChannel.CLAWBOT -> "（ClawBot 暂不支持图片远程回传；本地已保存，应用将尝试向远端发送文本说明）"
-            RemoteChannel.FEISHU -> "（飞书暂不支持图片远程回传；本地已保存）"
+            RemoteChannel.TELEGRAM -> " (Sent to Telegram / 已发送到 Telegram)"
+            RemoteChannel.CLAWBOT -> " (Saved locally; ClawBot media upload not implemented — text notice sent / 本地已保存；ClawBot 暂不支持图片回传，已尝试发送文本说明)"
+            RemoteChannel.FEISHU -> " (Saved locally; Lark media upload not supported / 本地已保存；飞书暂不支持图片回传)"
             else -> ""
         }
     }
 
-    /** 拍照/录像/录音/录屏等远程回传后的补充说明（与 [RemoteBridgeManager] 媒体策略一致）。 */
+    /** Notes appended after photo/video/audio/screen-record delivery (aligned with RemoteBridgeManager media policy). */
     private fun appendRemoteBinaryMediaNote(session: RemoteSession?, base: String): String {
         val suffix = when (session?.channel) {
-            RemoteChannel.TELEGRAM -> "（已发送到 Telegram）"
-            RemoteChannel.CLAWBOT -> "（已保存到本地；ClawBot 暂不支持该类型远程回传，应用将尝试向远端发送文本说明）"
-            RemoteChannel.FEISHU -> "（已保存到本地；飞书暂不支持该类型远程回传）"
+            RemoteChannel.TELEGRAM -> " (Sent to Telegram / 已发送到 Telegram)"
+            RemoteChannel.CLAWBOT -> " (Saved locally; ClawBot media upload not implemented — text notice sent / 本地已保存；ClawBot 暂不支持该类型回传，已尝试发送文本说明)"
+            RemoteChannel.FEISHU -> " (Saved locally; Lark media upload not supported / 本地已保存；飞书暂不支持该类型回传)"
             else -> ""
         }
         return base + suffix
@@ -228,9 +228,9 @@ object AgentController : ITgBridgeService, IAiConfigService {
         when (text) {
             "/status" -> {
                 val allowedId = channelConfig.getTgChatId()
-                val accessInfo = if (allowedId == 0L) "⚠️ 未设置 Chat ID 白名单" else "✅ Chat ID 已锁定"
-                val agentInfo = if (isAgentRunning) "▶️ Agent 运行中: ${uiState.userInput}" else "⏸ Agent 空闲"
-                val body = "Andclaw 状态\n$agentInfo\n$accessInfo\n你的 Chat ID: $chatId"
+                val accessInfo = if (allowedId == 0L) "⚠️ No Chat ID whitelist / 未设置 Chat ID 白名单" else "✅ Chat ID locked / Chat ID 已锁定"
+                val agentInfo = if (isAgentRunning) "▶️ Running / 运行中: ${uiState.userInput}" else "⏸ Idle / 空闲"
+                val body = "Andclaw Status / 状态\n$agentInfo\n$accessInfo\nYour Chat ID / 你的 Chat ID: $chatId"
                 RemoteOutboundHelper.sendText(
                     remoteBridge, telegramSession, body, replyToMessageId = msgId
                 )
@@ -238,7 +238,7 @@ object AgentController : ITgBridgeService, IAiConfigService {
             "/stop" -> {
                 withContext(Dispatchers.Main) { stopAgent() }
                 RemoteOutboundHelper.sendText(
-                    remoteBridge, telegramSession, "✅ 已停止当前任务", replyToMessageId = msgId
+                    remoteBridge, telegramSession, "✅ Task stopped / 已停止当前任务", replyToMessageId = msgId
                 )
             }
             else -> {
@@ -246,7 +246,7 @@ object AgentController : ITgBridgeService, IAiConfigService {
                 if (busy.first) {
                     RemoteOutboundHelper.sendText(
                         remoteBridge, telegramSession,
-                        "⏳ Agent 正在执行上一任务，不会开始新任务。请稍后或发送 /stop 停止。进行中的任务：${busy.second}",
+                        "⏳ Agent is busy / 正在执行上一任务. Send /stop to interrupt. Current task / 当前任务: ${busy.second}",
                         replyToMessageId = msgId
                     )
                     return
@@ -268,14 +268,14 @@ object AgentController : ITgBridgeService, IAiConfigService {
         )
         when (msg.text.trim()) {
             "/status" -> {
-                val agentInfo = if (isAgentRunning) "▶️ Agent 运行中: ${uiState.userInput}" else "⏸ Agent 空闲"
-                val body = "Andclaw 状态\n$agentInfo\n会话: ${msg.sessionKey}"
+                val agentInfo = if (isAgentRunning) "▶️ Running / 运行中: ${uiState.userInput}" else "⏸ Idle / 空闲"
+                val body = "Andclaw Status / 状态\n$agentInfo\nSession / 会话: ${msg.sessionKey}"
                 RemoteOutboundHelper.sendText(remoteBridge, clawSession, body, replyToMessageId = null)
             }
             "/stop" -> {
                 withContext(Dispatchers.Main) { stopAgent() }
                 RemoteOutboundHelper.sendText(
-                    remoteBridge, clawSession, "✅ 已停止当前任务", replyToMessageId = null
+                    remoteBridge, clawSession, "✅ Task stopped / 已停止当前任务", replyToMessageId = null
                 )
             }
             else -> {
@@ -283,7 +283,7 @@ object AgentController : ITgBridgeService, IAiConfigService {
                 if (busy.first) {
                     RemoteOutboundHelper.sendText(
                         remoteBridge, clawSession,
-                        "⏳ Agent 正在执行上一任务，不会开始新任务。请稍后或发送 /stop 停止。进行中的任务：${busy.second}",
+                        "⏳ Agent is busy / 正在执行上一任务. Send /stop to interrupt. Current task / 当前任务: ${busy.second}",
                         replyToMessageId = null
                     )
                     return
@@ -306,14 +306,14 @@ object AgentController : ITgBridgeService, IAiConfigService {
         )
         when (msg.text.trim()) {
             "/status" -> {
-                val agentInfo = if (isAgentRunning) "▶️ Agent 运行中: ${uiState.userInput}" else "⏸ Agent 空闲"
-                val body = "Andclaw 状态\n$agentInfo\n会话: ${msg.chatId}"
+                val agentInfo = if (isAgentRunning) "▶️ Running / 运行中: ${uiState.userInput}" else "⏸ Idle / 空闲"
+                val body = "Andclaw Status / 状态\n$agentInfo\nSession / 会话: ${msg.chatId}"
                 RemoteOutboundHelper.sendText(remoteBridge, feishuSession, body, replyToMessageId = null)
             }
             "/stop" -> {
                 withContext(Dispatchers.Main) { stopAgent() }
                 RemoteOutboundHelper.sendText(
-                    remoteBridge, feishuSession, "✅ 已停止当前任务", replyToMessageId = null
+                    remoteBridge, feishuSession, "✅ Task stopped / 已停止当前任务", replyToMessageId = null
                 )
             }
             else -> {
@@ -321,7 +321,7 @@ object AgentController : ITgBridgeService, IAiConfigService {
                 if (busy.first) {
                     RemoteOutboundHelper.sendText(
                         remoteBridge, feishuSession,
-                        "⏳ Agent 正在执行上一任务，不会开始新任务。请稍后或发送 /stop 停止。进行中的任务：${busy.second}",
+                        "⏳ Agent is busy / 正在执行上一任务. Send /stop to interrupt. Current task / 当前任务: ${busy.second}",
                         replyToMessageId = null
                     )
                     return
@@ -839,7 +839,7 @@ object AgentController : ITgBridgeService, IAiConfigService {
                                 delay(2000)
                                 success = true
                                 val filePath = ScreenRecordService.lastRecordedFile
-                                val stoppedMsg = "录屏已停止, 文件: ${filePath ?: "unknown"}"
+                                val stoppedMsg = "Screen recording stopped, file: ${filePath ?: "unknown"}"
                                 outputMsg = stoppedMsg
 
                                 if (filePath != null) {
@@ -900,33 +900,33 @@ object AgentController : ITgBridgeService, IAiConfigService {
                                     val vol = (level * maxVol / 100).coerceIn(0, maxVol)
                                     audioManager.setStreamVolume(streamType, vol, 0)
                                     success = true
-                                    outputMsg = "音量已设置: $streamName $vol/$maxVol ($level%)"
+                                    outputMsg = "Volume set: $streamName $vol/$maxVol ($level%)"
                                 }
                                 "adjust_up" -> {
                                     audioManager.adjustStreamVolume(streamType, AudioManager.ADJUST_RAISE, 0)
                                     val cur = audioManager.getStreamVolume(streamType)
                                     val max = audioManager.getStreamMaxVolume(streamType)
                                     success = true
-                                    outputMsg = "音量已调高: $streamName $cur/$max"
+                                    outputMsg = "Volume raised: $streamName $cur/$max"
                                 }
                                 "adjust_down" -> {
                                     audioManager.adjustStreamVolume(streamType, AudioManager.ADJUST_LOWER, 0)
                                     val cur = audioManager.getStreamVolume(streamType)
                                     val max = audioManager.getStreamMaxVolume(streamType)
                                     success = true
-                                    outputMsg = "音量已调低: $streamName $cur/$max"
+                                    outputMsg = "Volume lowered: $streamName $cur/$max"
                                 }
                                 "mute" -> {
                                     audioManager.adjustStreamVolume(streamType, AudioManager.ADJUST_MUTE, 0)
                                     success = true
-                                    outputMsg = "已静音: $streamName"
+                                    outputMsg = "Muted: $streamName"
                                 }
                                 "unmute" -> {
                                     audioManager.adjustStreamVolume(streamType, AudioManager.ADJUST_UNMUTE, 0)
                                     val cur = audioManager.getStreamVolume(streamType)
                                     val max = audioManager.getStreamMaxVolume(streamType)
                                     success = true
-                                    outputMsg = "已取消静音: $streamName $cur/$max"
+                                    outputMsg = "Unmuted: $streamName $cur/$max"
                                 }
                                 "get" -> {
                                     val cur = audioManager.getStreamVolume(streamType)
@@ -934,7 +934,7 @@ object AgentController : ITgBridgeService, IAiConfigService {
                                     val pct = if (max > 0) cur * 100 / max else 0
                                     val muted = audioManager.isStreamMute(streamType)
                                     success = true
-                                    outputMsg = "当前音量: $streamName $cur/$max ($pct%)${if (muted) " [已静音]" else ""}"
+                                    outputMsg = "Volume: $streamName $cur/$max ($pct%)${if (muted) " [muted]" else ""}"
                                 }
                                 else -> outputMsg = "Unknown volume_action: $volumeAction"
                             }

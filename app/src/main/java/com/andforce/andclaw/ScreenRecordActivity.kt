@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.andforce.andclaw.R
 
 class ScreenRecordActivity : AppCompatActivity() {
 
@@ -27,9 +28,9 @@ class ScreenRecordActivity : AppCompatActivity() {
                 action = "START"
             }
             ContextCompat.startForegroundService(this, intent)
-            lastResult = "录屏已启动"
+            lastResult = getString(R.string.screen_record_started)
         } else {
-            lastResult = "用户取消了录屏授权"
+            lastResult = getString(R.string.screen_record_cancelled)
         }
         finish()
     }
@@ -40,7 +41,7 @@ class ScreenRecordActivity : AppCompatActivity() {
         when (intent.getStringExtra(EXTRA_RECORD_ACTION)) {
             ACTION_START -> {
                 if (ScreenRecordService.isRecording) {
-                    lastResult = "录屏已在进行中"
+                    lastResult = getString(R.string.screen_record_already_in_progress)
                     finish()
                     return
                 }
@@ -50,7 +51,7 @@ class ScreenRecordActivity : AppCompatActivity() {
             }
             ACTION_STOP -> {
                 if (!ScreenRecordService.isRecording) {
-                    lastResult = "当前没有在录屏"
+                    lastResult = getString(R.string.screen_record_not_in_progress)
                     finish()
                     return
                 }
@@ -58,11 +59,11 @@ class ScreenRecordActivity : AppCompatActivity() {
                     action = "STOP"
                 }
                 startService(intent)
-                lastResult = "录屏已停止, 文件: ${ScreenRecordService.lastRecordedFile ?: "unknown"}"
+                lastResult = getString(R.string.screen_record_stopped, ScreenRecordService.lastRecordedFile ?: "unknown")
                 finish()
             }
             else -> {
-                lastResult = "未知的录屏操作"
+                lastResult = getString(R.string.screen_record_unknown_action)
                 finish()
             }
         }

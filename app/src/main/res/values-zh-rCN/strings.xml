@@ -57,4 +57,76 @@
     <string name="language_chinese">中文</string>
     <string name="language_english">English</string>
     <string name="language_follow_system">跟随系统</string>
+
+    <!-- ScreenRecordService 通知 -->
+    <string name="notif_screen_record_channel">录屏</string>
+    <string name="notif_screen_record_title">Andclaw 录屏中</string>
+    <string name="notif_screen_record_text">正在录制屏幕…</string>
+
+    <!-- AudioRecordActivity -->
+    <string name="audio_record_title">录音</string>
+    <string name="audio_record_ready">录音就绪</string>
+    <string name="audio_record_in_progress">正在录音…</string>
+    <string name="audio_record_stopping">正在停止录音…</string>
+    <string name="audio_record_not_in_progress">当前没有在录音</string>
+    <string name="audio_record_already_in_progress">已在录音中</string>
+    <string name="audio_record_started">录音已开始</string>
+    <string name="audio_record_start_failed">录音启动失败: %s</string>
+    <string name="audio_record_complete">录音完成: Music/Andclaw/%s</string>
+    <string name="audio_record_stop_failed">停止录音失败: %s</string>
+    <string name="audio_permission_denied">录音权限被拒绝</string>
+    <string name="audio_permission_required">需要录音权限</string>
+    <string name="btn_start_audio_record">开始录音</string>
+    <string name="btn_stop_audio_record">停止录音</string>
+    <string name="btn_start_audio_record_desc">开始录音按钮</string>
+    <string name="btn_stop_audio_record_desc">停止录音按钮</string>
+
+    <!-- CameraActivity -->
+    <string name="camera_title">相机</string>
+    <string name="camera_ready">相机就绪</string>
+    <string name="camera_taking_photo">正在拍照…</string>
+    <string name="camera_photo_done">拍照完成: Pictures/Andclaw/%s</string>
+    <string name="camera_photo_failed">拍照失败: %s</string>
+    <string name="camera_video_in_progress">已在录像中</string>
+    <string name="camera_video_starting">正在开始录像…</string>
+    <string name="camera_video_started">录像已开始</string>
+    <string name="camera_video_in_progress_status">正在录像…</string>
+    <string name="camera_video_failed">录像失败: %s</string>
+    <string name="camera_video_done">录像完成: Movies/Andclaw/%s</string>
+    <string name="camera_video_not_in_progress">当前没有在录像</string>
+    <string name="camera_video_stopping">正在停止录像…</string>
+    <string name="camera_permission_denied">相机权限被拒绝</string>
+    <string name="camera_permission_required">需要相机权限</string>
+    <string name="btn_take_photo">拍照</string>
+    <string name="btn_take_photo_desc">拍照按钮</string>
+    <string name="btn_start_video">开始录像</string>
+    <string name="btn_start_video_desc">开始录像按钮</string>
+    <string name="btn_stop_video">停止录像</string>
+    <string name="btn_stop_video_desc">停止录像按钮</string>
+
+    <!-- ScreenRecordActivity -->
+    <string name="screen_record_started">录屏已启动</string>
+    <string name="screen_record_cancelled">用户取消了录屏授权</string>
+    <string name="screen_record_already_in_progress">录屏已在进行中</string>
+    <string name="screen_record_not_in_progress">当前没有在录屏</string>
+    <string name="screen_record_stopped">录屏已停止, 文件: %s</string>
+    <string name="screen_record_unknown_action">未知的录屏操作</string>
+
+    <!-- ChatAdapter -->
+    <string name="chat_action_label">执行操作: %s</string>
+    <string name="chat_action_coords">坐标: (%1$s, %2$s)</string>
+
+    <!-- ActionTestActivity 对话框 -->
+    <string name="action_test_select_apk">选择要安装的 APK</string>
+    <string name="action_test_uninstall_title">静默卸载</string>
+    <string name="action_test_uninstall_pkg_hint">输入包名, 如 com.example.app</string>
+    <string name="action_test_btn_uninstall">卸载</string>
+    <string name="action_test_grant_perm_pkg_hint">包名</string>
+    <string name="action_test_grant_perm_title">自动授权全部权限</string>
+    <string name="action_test_grant_perm_msg">将授予目标应用所有已声明的运行时权限</string>
+    <string name="action_test_btn_grant">授权</string>
+    <string name="action_test_text_input_hint">输入要注入的文本</string>
+    <string name="action_test_text_input_title">文本输入测试</string>
+    <string name="action_test_btn_inject">注入</string>
+    <string name="btn_cancel">取消</string>
 </resources>

@@ -57,4 +57,76 @@
     <string name="language_chinese">中文</string>
     <string name="language_english">English</string>
     <string name="language_follow_system">Follow System</string>
+
+    <!-- ScreenRecordService notification -->
+    <string name="notif_screen_record_channel">Screen Recording</string>
+    <string name="notif_screen_record_title">Andclaw Recording</string>
+    <string name="notif_screen_record_text">Recording screen…</string>
+
+    <!-- AudioRecordActivity -->
+    <string name="audio_record_title">Audio Record</string>
+    <string name="audio_record_ready">Ready</string>
+    <string name="audio_record_in_progress">Recording…</string>
+    <string name="audio_record_stopping">Stopping…</string>
+    <string name="audio_record_not_in_progress">Not recording</string>
+    <string name="audio_record_already_in_progress">Already recording</string>
+    <string name="audio_record_started">Recording started</string>
+    <string name="audio_record_start_failed">Failed to start recording: %s</string>
+    <string name="audio_record_complete">Recording saved: Music/Andclaw/%s</string>
+    <string name="audio_record_stop_failed">Failed to stop recording: %s</string>
+    <string name="audio_permission_denied">Audio recording permission denied</string>
+    <string name="audio_permission_required">Audio recording permission required</string>
+    <string name="btn_start_audio_record">Start Recording</string>
+    <string name="btn_stop_audio_record">Stop Recording</string>
+    <string name="btn_start_audio_record_desc">Start recording button</string>
+    <string name="btn_stop_audio_record_desc">Stop recording button</string>
+
+    <!-- CameraActivity -->
+    <string name="camera_title">Camera</string>
+    <string name="camera_ready">Camera Ready</string>
+    <string name="camera_taking_photo">Taking photo…</string>
+    <string name="camera_photo_done">Photo saved: Pictures/Andclaw/%s</string>
+    <string name="camera_photo_failed">Photo failed: %s</string>
+    <string name="camera_video_in_progress">Already recording video</string>
+    <string name="camera_video_starting">Starting video…</string>
+    <string name="camera_video_started">Video recording started</string>
+    <string name="camera_video_in_progress_status">Recording video…</string>
+    <string name="camera_video_failed">Video failed: %s</string>
+    <string name="camera_video_done">Video saved: Movies/Andclaw/%s</string>
+    <string name="camera_video_not_in_progress">Not recording</string>
+    <string name="camera_video_stopping">Stopping video…</string>
+    <string name="camera_permission_denied">Camera permission denied</string>
+    <string name="camera_permission_required">Camera permission required</string>
+    <string name="btn_take_photo">Take Photo</string>
+    <string name="btn_take_photo_desc">Take photo button</string>
+    <string name="btn_start_video">Start Video</string>
+    <string name="btn_start_video_desc">Start video button</string>
+    <string name="btn_stop_video">Stop Video</string>
+    <string name="btn_stop_video_desc">Stop video button</string>
+
+    <!-- ScreenRecordActivity -->
+    <string name="screen_record_started">Screen recording started</string>
+    <string name="screen_record_cancelled">Screen recording cancelled by user</string>
+    <string name="screen_record_already_in_progress">Screen recording already in progress</string>
+    <string name="screen_record_not_in_progress">Not recording screen</string>
+    <string name="screen_record_stopped">Screen recording stopped, file: %s</string>
+    <string name="screen_record_unknown_action">Unknown screen record action</string>
+
+    <!-- ChatAdapter -->
+    <string name="chat_action_label">Action: %s</string>
+    <string name="chat_action_coords">Coords: (%1$s, %2$s)</string>
+
+    <!-- ActionTestActivity dialogs -->
+    <string name="action_test_select_apk">Select APK to Install</string>
+    <string name="action_test_uninstall_title">Silent Uninstall</string>
+    <string name="action_test_uninstall_pkg_hint">Enter package name, e.g. com.example.app</string>
+    <string name="action_test_btn_uninstall">Uninstall</string>
+    <string name="action_test_grant_perm_pkg_hint">Package name</string>
+    <string name="action_test_grant_perm_title">Auto-grant All Permissions</string>
+    <string name="action_test_grant_perm_msg">Will grant all declared runtime permissions to the target app</string>
+    <string name="action_test_btn_grant">Grant</string>
+    <string name="action_test_text_input_hint">Enter text to inject</string>
+    <string name="action_test_text_input_title">Text Input Test</string>
+    <string name="action_test_btn_inject">Inject</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>
