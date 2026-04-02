@@ -430,12 +430,13 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
     }
 
     private fun formatFeishuStatusLine(status: BridgeStatus): String {
-        return "状态: " + when (status) {
-            BridgeStatus.NOT_CONFIGURED -> "未配置"
-            BridgeStatus.STOPPED -> "已停止"
-            BridgeStatus.CONNECTED -> "已连接 ✓"
-            BridgeStatus.DISCONNECTED -> "未连接"
+        val s = when (status) {
+            BridgeStatus.NOT_CONFIGURED -> getString(R.string.status_not_configured)
+            BridgeStatus.STOPPED -> getString(R.string.status_stopped)
+            BridgeStatus.CONNECTED -> getString(R.string.status_connected) + " ✓"
+            BridgeStatus.DISCONNECTED -> getString(R.string.status_disconnected)
         }
+        return "Status: $s"
     }
 
     // endregion
@@ -447,12 +448,12 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
         val appSecret = binding.etFeishuAppSecret.text.toString().trim()
 
         if (appId.isEmpty() || appSecret.isEmpty()) {
-            showFeishuResult("请填写 App ID 和 App Secret", isError = true)
+            showFeishuResult(getString(R.string.err_fill_api_config), isError = true)
             return
         }
 
         binding.btnTestFeishu.isEnabled = false
-        showFeishuResult("正在测试连接...", isError = false)
+        showFeishuResult(getString(R.string.testing_connection), isError = false)
 
         lifecycleScope.launch {
             val result = testFeishuToken(appId, appSecret)
@@ -487,15 +488,15 @@ class RemoteChannelSettingsActivity : AppCompatActivity() {
                     val json = JSONObject(respBody)
                     val code = json.optInt("code", -1)
                     if (code == 0) {
-                        "连接成功 ✓" to false
+                        getString(R.string.connection_success, "") to false
                     } else {
-                        "App ID/Secret 无效: ${json.optString("msg")}" to true
+                        getString(R.string.tg_invalid_token, json.optString("msg")) to true
                     }
                 } else {
-                    "连接失败 (HTTP $code)\n$respBody" to true
+                    getString(R.string.connection_failed_http, code, respBody) to true
                 }
             } catch (e: Exception) {
-                "连接失败: ${e.message}" to true
+                getString(R.string.connection_failed, e.message) to true
             }
         }
 

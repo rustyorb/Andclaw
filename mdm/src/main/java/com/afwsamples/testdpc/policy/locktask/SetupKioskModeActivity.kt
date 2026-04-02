@@ -280,7 +280,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
                     {
                         Toast.makeText(
                             this,
-                            "设备管理员已移除",
+                            getString(R.string.device_owner_removed),
                             Toast.LENGTH_SHORT
                         ).show()
                         kioskViewModule.updateDeviceOwnerState(false)
@@ -288,7 +288,7 @@ open class SetupKioskModeActivity : AppCompatActivity() {
                     { e: Exception? ->
                         Toast.makeText(
                             this,
-                            "移除设备管理员失败: $e",
+                            getString(R.string.remove_device_owner_failed, e),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

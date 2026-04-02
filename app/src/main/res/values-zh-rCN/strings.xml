@@ -115,4 +115,17 @@
     <!-- ChatAdapter -->
     <string name="chat_action_label">执行操作: %s</string>
     <string name="chat_action_coords">坐标: (%1$s, %2$s)</string>
+
+    <!-- ActionTestActivity 对话框 -->
+    <string name="action_test_select_apk">选择要安装的 APK</string>
+    <string name="action_test_uninstall_title">静默卸载</string>
+    <string name="action_test_uninstall_pkg_hint">输入包名, 如 com.example.app</string>
+    <string name="action_test_btn_uninstall">卸载</string>
+    <string name="action_test_grant_perm_pkg_hint">包名</string>
+    <string name="action_test_grant_perm_title">自动授权全部权限</string>
+    <string name="action_test_grant_perm_msg">将授予目标应用所有已声明的运行时权限</string>
+    <string name="action_test_btn_grant">授权</string>
+    <string name="action_test_text_input_title">文本输入测试</string>
+    <string name="action_test_btn_inject">注入</string>
+    <string name="btn_cancel">取消</string>
 </resources>

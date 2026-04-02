@@ -55,9 +55,9 @@ class ActionTestActivity : AppCompatActivity() {
             startForegroundService(intent)
             binding.btnStartRecord.isEnabled = false
             binding.btnStopRecord.isEnabled = true
-            log("录屏已启动")
+            log("Screen recording started")
         } else {
-            log("用户取消了录屏授权")
+            log("Screen recording cancelled by user")
         }
     }
 
@@ -89,21 +89,21 @@ class ActionTestActivity : AppCompatActivity() {
         binding.btnScreenshot.setOnClickListener {
             val service = AgentAccessibilityService.instance
             if (service == null) {
-                log("错误: 无障碍服务未启用")
+                log("Error: Accessibility Service not enabled")
                 return@setOnClickListener
             }
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                log("错误: 截屏需要 API 30+, 当前 API ${Build.VERSION.SDK_INT}")
+                log("Error: Screenshot requires API 30+, current API ${Build.VERSION.SDK_INT}")
                 return@setOnClickListener
             }
-            log("正在截屏...")
+            log("Taking screenshot...")
             service.captureScreenshot { bitmap ->
                 runOnUiThread {
                     if (bitmap != null) {
                         val path = saveScreenshot(bitmap)
-                        log("截屏成功: ${bitmap.width}x${bitmap.height}, 已保存: $path")
+                        log("Screenshot saved: ${bitmap.width}x${bitmap.height}, path: $path")
                     } else {
-                        log("截屏失败")
+                        log("Screenshot failed")
                     }
                 }
             }
@@ -112,24 +112,24 @@ class ActionTestActivity : AppCompatActivity() {
         binding.btnScreenshotToAi.setOnClickListener {
             val service = AgentAccessibilityService.instance
             if (service == null) {
-                log("错误: 无障碍服务未启用")
+                log("Error: Accessibility Service not enabled")
                 return@setOnClickListener
             }
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-                log("错误: 截屏需要 API 30+")
+                log("Error: Screenshot requires API 30+")
                 return@setOnClickListener
             }
-            log("正在截屏并发送给 AI...")
+            log("Taking screenshot and sending to AI...")
             service.captureScreenshot { bitmap ->
                 if (bitmap == null) {
-                    runOnUiThread { log("截屏失败") }
+                    runOnUiThread { log("Screenshot failed") }
                     return@captureScreenshot
                 }
                 val baos = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
                 val base64 = Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
                 val screenData = AgentAccessibilityService.instance?.captureScreenHierarchy() ?: "Empty"
-                runOnUiThread { log("截屏完成 (${baos.size() / 1024}KB), 正在发送给 AI...") }
+                runOnUiThread { log("Screenshot done (${baos.size() / 1024}KB), sending to AI...") }
 
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
@@ -139,11 +139,11 @@ class ActionTestActivity : AppCompatActivity() {
                             this@ActionTestActivity, screenshotBase64 = base64
                         )
                         withContext(Dispatchers.Main) {
-                            log("AI 响应:\n$response")
+                            log("AI response:\n$response")
                         }
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
-                            log("AI 请求失败: ${e.message}")
+                            log("AI request failed: ${e.message}")
                         }
                     }
                 }
@@ -182,7 +182,7 @@ class ActionTestActivity : AppCompatActivity() {
             startService(intent)
             binding.btnStartRecord.isEnabled = true
             binding.btnStopRecord.isEnabled = false
-            log("录屏已停止, 文件: ${ScreenRecordService.lastRecordedFile ?: "unknown"}")
+            log("Screen recording stopped, file: ${ScreenRecordService.lastRecordedFile ?: "unknown"}")
         }
     }
 
@@ -193,15 +193,15 @@ class ActionTestActivity : AppCompatActivity() {
             try {
                 val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
                 val request = DownloadManager.Request(Uri.parse(TEST_DOWNLOAD_URL)).apply {
-                    setTitle("Andclaw 测试下载")
-                    setDescription("正在下载测试文件...")
+                    setTitle("Andclaw Test Download")
+                    setDescription("Downloading test file...")
                     setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     setDestinationInExternalPublicDir("Download", "andclaw_test.txt")
                 }
                 val downloadId = dm.enqueue(request)
-                log("下载已启动, ID=$downloadId, URL=$TEST_DOWNLOAD_URL")
+                log("Download started, ID=$downloadId, URL=$TEST_DOWNLOAD_URL")
             } catch (e: Exception) {
-                log("下载失败: ${e.message}")
+                log("Download failed: ${e.message}")
             }
         }
     }
@@ -212,23 +212,23 @@ class ActionTestActivity : AppCompatActivity() {
         binding.btnTextInput.setOnClickListener {
             val service = AgentAccessibilityService.instance
             if (service == null) {
-                log("错误: 无障碍服务未启用")
+                log("Error: Accessibility Service not enabled")
                 return@setOnClickListener
             }
 
             val editText = EditText(this).apply {
-                hint = "输入要注入的文本"
+                hint = getString(R.string.btn_text_inject)
                 setText("Hello from Andclaw!")
             }
             MaterialAlertDialogBuilder(this)
-                .setTitle("文本输入测试")
+                .setTitle(R.string.action_test_text_input_title)
                 .setView(editText)
-                .setPositiveButton("注入") { _, _ ->
+                .setPositiveButton(R.string.action_test_btn_inject) { _, _ ->
                     val text = editText.text.toString()
                     val result = service.inputText(text)
-                    log("文本注入 ${if (result) "成功" else "失败"}: \"$text\"")
+                    log("Text inject ${if (result) "success" else "failed"}: \"$text\"")
                 }
-                .setNegativeButton("取消", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show()
         }
     }
@@ -246,25 +246,25 @@ class ActionTestActivity : AppCompatActivity() {
 
         binding.btnSwipeUp.setOnClickListener {
             withService { it.swipe(cx, cy + offset, cx, cy - offset) }
-            log("上滑: ($cx,${cy + offset}) -> ($cx,${cy - offset})")
+            log("Swipe up: ($cx,${cy + offset}) -> ($cx,${cy - offset})")
         }
         binding.btnSwipeDown.setOnClickListener {
             withService { it.swipe(cx, cy - offset, cx, cy + offset) }
-            log("下滑: ($cx,${cy - offset}) -> ($cx,${cy + offset})")
+            log("Swipe down: ($cx,${cy - offset}) -> ($cx,${cy + offset})")
         }
         binding.btnSwipeLeft.setOnClickListener {
             val xOffset = metrics.widthPixels / 4
             withService { it.swipe(cx + xOffset, cy, cx - xOffset, cy) }
-            log("左滑: (${cx + xOffset},$cy) -> (${cx - xOffset},$cy)")
+            log("Swipe left: (${cx + xOffset},$cy) -> (${cx - xOffset},$cy)")
         }
         binding.btnSwipeRight.setOnClickListener {
             val xOffset = metrics.widthPixels / 4
             withService { it.swipe(cx - xOffset, cy, cx + xOffset, cy) }
-            log("右滑: (${cx - xOffset},$cy) -> (${cx + xOffset},$cy)")
+            log("Swipe right: (${cx - xOffset},$cy) -> (${cx + xOffset},$cy)")
         }
         binding.btnLongPress.setOnClickListener {
             withService { it.longPress(cx, cy) }
-            log("长按屏幕中心: ($cx, $cy)")
+            log("Long press center: ($cx, $cy)")
         }
     }
 
@@ -273,23 +273,23 @@ class ActionTestActivity : AppCompatActivity() {
     private fun setupGlobalActions() {
         binding.btnBack.setOnClickListener {
             withService { it.globalAction(AccessibilityService.GLOBAL_ACTION_BACK) }
-            log("全局操作: 返回")
+            log("Global action: Back")
         }
         binding.btnHome.setOnClickListener {
             withService { it.globalAction(AccessibilityService.GLOBAL_ACTION_HOME) }
-            log("全局操作: Home")
+            log("Global action: Home")
         }
         binding.btnRecents.setOnClickListener {
             withService { it.globalAction(AccessibilityService.GLOBAL_ACTION_RECENTS) }
-            log("全局操作: 最近任务")
+            log("Global action: Recents")
         }
         binding.btnNotifications.setOnClickListener {
             withService { it.globalAction(AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS) }
-            log("全局操作: 通知栏")
+            log("Global action: Notifications")
         }
         binding.btnQuickSettings.setOnClickListener {
             withService { it.globalAction(AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS) }
-            log("全局操作: 快捷设置")
+            log("Global action: Quick Settings")
         }
     }
 
@@ -300,75 +300,75 @@ class ActionTestActivity : AppCompatActivity() {
 
         binding.btnInstallApk.setOnClickListener {
             if (!Util.isDeviceOwner(this)) {
-                log("错误: 需要 Device Owner 权限")
+                log("Error: Device Owner permission required")
                 return@setOnClickListener
             }
             val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            log("扫描目录: ${downloadDir.absolutePath}, exists=${downloadDir.exists()}")
+            log("Scanning: ${downloadDir.absolutePath}, exists=${downloadDir.exists()}")
             val apkFiles = downloadDir.listFiles()
                 ?.filter { it.isFile && it.name.endsWith(".apk", ignoreCase = true) }
                 ?.sortedByDescending { it.lastModified() }
                 ?: emptyList()
 
             if (apkFiles.isEmpty()) {
-                log("Download 目录下没有 APK 文件")
+                log("No APK files in Downloads directory")
                 return@setOnClickListener
             }
 
             val names = apkFiles.map { "${it.name} (${it.length() / 1024}KB)" }.toTypedArray()
             MaterialAlertDialogBuilder(this)
-                .setTitle("选择要安装的 APK")
+                .setTitle(R.string.action_test_select_apk)
                 .setItems(names) { _, which ->
                     val file = apkFiles[which]
-                    log("正在安装: ${file.name} ...")
+                    log("Installing: ${file.name} …")
                     val result = dpmBridge.execute("installPackage", mapOf("file_path" to file.absolutePath))
-                    log("安装结果: ${result.message}")
+                    log("Install result: ${result.message}")
                 }
-                .setNegativeButton("取消", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show()
         }
 
         binding.btnUninstallApp.setOnClickListener {
             if (!Util.isDeviceOwner(this)) {
-                log("错误: 需要 Device Owner 权限")
+                log("Error: Device Owner permission required")
                 return@setOnClickListener
             }
-            val editText = EditText(this).apply { hint = "输入包名, 如 com.example.app" }
+            val editText = EditText(this).apply { hint = getString(R.string.action_test_uninstall_pkg_hint) }
             MaterialAlertDialogBuilder(this)
-                .setTitle("静默卸载")
+                .setTitle(R.string.action_test_uninstall_title)
                 .setView(editText)
-                .setPositiveButton("卸载") { _, _ ->
+                .setPositiveButton(R.string.action_test_btn_uninstall) { _, _ ->
                     val pkg = editText.text.toString().trim()
                     if (pkg.isNotEmpty()) {
-                        log("正在卸载: $pkg ...")
+                        log("Uninstalling: $pkg …")
                         val result = dpmBridge.execute("uninstallPackage", mapOf("package_name" to pkg))
-                        log("卸载结果: ${result.message}")
+                        log("Uninstall result: ${result.message}")
                     }
                 }
-                .setNegativeButton("取消", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show()
         }
 
         binding.btnGrantPermission.setOnClickListener {
             if (!Util.isDeviceOwner(this)) {
-                log("错误: 需要 Device Owner 权限")
+                log("Error: Device Owner permission required")
                 return@setOnClickListener
             }
             val editText = EditText(this).apply {
-                hint = "包名"
+                hint = getString(R.string.action_test_grant_perm_pkg_hint)
                 setText("com.example.app")
             }
             MaterialAlertDialogBuilder(this)
-                .setTitle("自动授权全部权限")
-                .setMessage("将授予目标应用所有已声明的运行时权限")
+                .setTitle(R.string.action_test_grant_perm_title)
+                .setMessage(R.string.action_test_grant_perm_msg)
                 .setView(editText)
-                .setPositiveButton("授权") { _, _ ->
+                .setPositiveButton(R.string.action_test_btn_grant) { _, _ ->
                     val pkg = editText.text.toString().trim()
                     if (pkg.isNotEmpty()) {
                         grantAllPermissions(pkg, dpmBridge)
                     }
                 }
-                .setNegativeButton("取消", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show()
         }
     }
@@ -387,9 +387,9 @@ class ActionTestActivity : AppCompatActivity() {
                 ))
                 if (result.success) granted++
             }
-            log("已授权 $granted/${permissions.size} 个权限给 $packageName")
+            log("Granted $granted/${permissions.size} permissions to $packageName")
         } catch (e: Exception) {
-            log("授权失败: ${e.message}")
+            log("Grant failed: ${e.message}")
         }
     }
 
@@ -401,16 +401,16 @@ class ActionTestActivity : AppCompatActivity() {
         binding.btnCopy.setOnClickListener {
             val testText = "Andclaw Test ${System.currentTimeMillis()}"
             cm.setPrimaryClip(ClipData.newPlainText("test", testText))
-            log("已复制到剪贴板: \"$testText\"")
+            log("Copied to clipboard: \"$testText\"")
         }
 
         binding.btnPaste.setOnClickListener {
             val clip = cm.primaryClip
             if (clip != null && clip.itemCount > 0) {
-                val text = clip.getItemAt(0).text?.toString() ?: "(非文本内容)"
-                log("剪贴板内容: \"$text\"")
+                val text = clip.getItemAt(0).text?.toString() ?: "(non-text content)"
+                log("Clipboard content: \"$text\"")
             } else {
-                log("剪贴板为空")
+                log("Clipboard is empty")
             }
         }
     }
@@ -421,17 +421,17 @@ class ActionTestActivity : AppCompatActivity() {
         binding.btnShare.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "Hello from Andclaw! 测试分享功能")
+                putExtra(Intent.EXTRA_TEXT, "Hello from Andclaw! Share test")
             }
-            startActivity(Intent.createChooser(shareIntent, "分享到"))
-            log("已发起分享")
+            startActivity(Intent.createChooser(shareIntent, "Share to"))
+            log("Share initiated")
         }
     }
 
     private inline fun withService(action: (AgentAccessibilityService) -> Unit): Boolean {
         val service = AgentAccessibilityService.instance
         if (service == null) {
-            log("错误: 无障碍服务未启用")
+            log("Error: Accessibility Service not enabled")
             return false
         }
         action(service)

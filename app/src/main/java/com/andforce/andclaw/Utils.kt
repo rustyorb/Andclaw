@@ -43,12 +43,12 @@ object Utils {
     suspend fun executeHttpRequest(action: AiAction): Pair<Boolean, String> = withContext(Dispatchers.IO) {
         val urlString = action.data?.trim().orEmpty()
         if (urlString.isEmpty()) {
-            return@withContext Pair(false, "HTTP: data(URL) 为空")
+            return@withContext Pair(false, "HTTP: data(URL) is empty / 为空")
         }
         val uri = Uri.parse(urlString)
         val scheme = uri.scheme?.lowercase()
         if (scheme != "http" && scheme != "https") {
-            return@withContext Pair(false, "HTTP: 仅支持 http / https URL")
+            return@withContext Pair(false, "HTTP: only http / https URL supported / 仅支持 http/https")
         }
         val method = (action.httpMethod ?: "GET").uppercase()
         val effectiveBody: RequestBody? = when {
@@ -79,7 +79,7 @@ object Utils {
                 Pair(true, msg)
             }
         } catch (e: IOException) {
-            Pair(false, "HTTP 异常: ${e.message}")
+            Pair(false, "HTTP error / 异常: ${e.message}")
         }
     }
 
@@ -231,7 +231,7 @@ Example POST: {"type":"http_request","data":"https://api.example.com/v1/login","
 === WAIT ===
 Wait for a page to finish loading or a UI transition to complete, then re-check the screen.
 Optional "duration" in ms (default 3000, max 10000).
-Use this when the screen shows loading indicators, spinners, or "努力加载中" style messages.
+Use this when the screen shows loading indicators, spinners, or "loading / 加载中 / 努力加载中" style messages.
 Example: {"type":"wait","progress":"商家页面加载中","reason":"页面正在加载，等待完成后继续","duration":3000}
 
 === CAMERA ===
@@ -247,7 +247,7 @@ Record the device screen using MediaProjection. Use "screen_record_action" field
 - "start_record" — Start screen recording. A system authorization dialog will appear. After using this action, you MUST click the "立即开始" (Start Now) button on the authorization dialog in the NEXT step to begin recording. The video saves to Movies/Andclaw/ as MP4.
 - "stop_record" — Stop current screen recording and save to gallery.
 IMPORTANT: When user asks to record the screen (录屏/屏幕录制), ALWAYS use type "screen_record". This is different from "camera" which uses the physical camera. "screen_record" captures what's displayed on screen.
-IMPORTANT: After "start_record", a system dialog appears asking for permission. You MUST click "立即开始" button in the next step. Do NOT use "finish" until the recording is confirmed started.
+IMPORTANT: After "start_record", a system dialog appears asking for permission. You MUST click the "Start Now / 立即开始" button in the next step. Do NOT use "finish" until the recording is confirmed started.
 Example: {"type":"screen_record","screen_record_action":"start_record","progress":"准备录屏","reason":"用户要求录制屏幕"}
 Example: {"type":"screen_record","screen_record_action":"stop_record","progress":"停止录屏","reason":"用户要求停止录屏"}
 

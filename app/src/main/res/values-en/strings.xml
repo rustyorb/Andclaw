@@ -115,4 +115,17 @@
     <!-- ChatAdapter -->
     <string name="chat_action_label">Action: %s</string>
     <string name="chat_action_coords">Coords: (%1$s, %2$s)</string>
+
+    <!-- ActionTestActivity dialogs -->
+    <string name="action_test_select_apk">Select APK to Install</string>
+    <string name="action_test_uninstall_title">Silent Uninstall</string>
+    <string name="action_test_uninstall_pkg_hint">Enter package name, e.g. com.example.app</string>
+    <string name="action_test_btn_uninstall">Uninstall</string>
+    <string name="action_test_grant_perm_pkg_hint">Package name</string>
+    <string name="action_test_grant_perm_title">Auto-grant All Permissions</string>
+    <string name="action_test_grant_perm_msg">Will grant all declared runtime permissions to the target app</string>
+    <string name="action_test_btn_grant">Grant</string>
+    <string name="action_test_text_input_title">Text Input Test</string>
+    <string name="action_test_btn_inject">Inject</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>
