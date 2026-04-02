@@ -13,7 +13,7 @@
         android:background="@color/background"
         app:navigationIcon="@drawable/ic_close"
         app:navigationIconTint="@color/text_primary"
-        app:title="相机"
+        app:title="@string/camera_title"
         app:titleTextColor="@color/text_primary" />
 
     <androidx.camera.view.PreviewView
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_sm"
-            android:text="相机就绪"
+            android:text="@string/camera_ready"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="@color/text_primary" />
 
@@ -49,8 +49,8 @@
                 android:id="@+id/btnTakePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="拍照按钮"
-                android:text="拍照"
+                android:contentDescription="@string/btn_take_photo_desc"
+                android:text="@string/btn_take_photo"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -58,8 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:contentDescription="开始录像按钮"
-                android:text="开始录像"
+                android:contentDescription="@string/btn_start_video_desc"
+                android:text="@string/btn_start_video"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -67,9 +67,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:contentDescription="停止录像按钮"
+                android:contentDescription="@string/btn_stop_video_desc"
                 android:enabled="false"
-                android:text="停止录像"
+                android:text="@string/btn_stop_video"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

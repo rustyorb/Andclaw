@@ -60,7 +60,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="设备管理员模式"
+                            android:text="@string/device_owner_mode_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_primary" />
 
@@ -69,7 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_sm"
-                            android:text="未开启"
+                            android:text="@string/device_owner_not_enabled"
                             android:textAppearance="@style/TextAppearance.Mdm.Body"
                             android:textColor="@color/mdm_text_secondary" />
 
@@ -84,7 +84,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_md"
-                                android:text="设置设备管理员"
+                                android:text="@string/btn_setup_device_owner"
                                 android:visibility="gone"
                                 app:strokeColor="@color/mdm_primary" />
                         </LinearLayout>
@@ -113,7 +113,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="网络连接"
+                            android:text="@string/network_connection_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_primary" />
 
@@ -122,7 +122,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_sm"
-                            android:text="未连接"
+                            android:text="@string/network_not_connected"
                             android:textAppearance="@style/TextAppearance.Mdm.Body"
                             android:textColor="@color/mdm_text_secondary" />
 
@@ -132,7 +132,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_md"
-                            android:text="设置网络"
+                            android:text="@string/btn_setup_network"
                             android:visibility="gone"
                             app:strokeColor="@color/mdm_primary" />
 
@@ -160,7 +160,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="远程连接"
+                            android:text="@string/remote_channel_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_primary" />
 
@@ -168,7 +168,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_sm"
-                            android:text="仅能同时启用一种连接方式，切换后其他通道会断开。"
+                            android:text="@string/remote_channel_single_note"
                             android:textAppearance="@style/TextAppearance.Mdm.Body"
                             android:textColor="@color/mdm_text_secondary" />
 
@@ -192,7 +192,7 @@
                                 style="@style/Widget.Material3.Chip.Filter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="飞书" />
+                                android:text="@string/lark_chip_label" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_clawbot"
@@ -218,7 +218,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_md"
-                            android:text="去配置"
+                            android:text="@string/btn_configure_channel"
                             app:strokeColor="@color/mdm_primary" />
 
                     </LinearLayout>
@@ -244,7 +244,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="对话记录"
+                            android:text="@string/chat_history_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_primary" />
 
@@ -252,7 +252,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_sm"
-                            android:text="仅展示历史记录，不支持输入。请用已配置的远程连接（Telegram / 飞书 / ClawBot）发送指令，在此查看 AI 的回复与操作。"
+                            android:text="@string/chat_history_note"
                             android:textAppearance="@style/TextAppearance.Mdm.Body"
                             android:textColor="@color/mdm_text_secondary" />
 
@@ -262,7 +262,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_md"
-                            android:text="对话记录"
+                            android:text="@string/btn_chat_history"
                             app:strokeColor="@color/mdm_primary" />
 
                         <com.google.android.material.button.MaterialButton
@@ -280,7 +280,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_sm"
-                            android:text="AI 设置"
+                            android:text="@string/btn_ai_settings"
                             app:strokeColor="@color/mdm_primary" />
 
                     </LinearLayout>

@@ -20,7 +20,7 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">设备管理</string>
+    <string name="app_name">Device Management</string>
     <string name="setup_app_name">Set up Test DPC</string>
     <string name="cancel">Cancel</string>
     <string name="set_up_managed_profile">Set up managed profile</string>
@@ -1306,9 +1306,117 @@
     <string name="bootup_notice_button">確認</string>
 
     <!-- VPN Activity strings -->
-    <string name="send_get">发送get</string>
+    <string name="send_get">Send GET</string>
     <string name="start">Start</string>
     <string name="end">End</string>
-    <string name="update">更新</string>
+    <string name="update">Update</string>
+
+    <!-- AI Settings Activity -->
+    <string name="ai_config_title">AI Config</string>
+    <string name="ai_api_config_label">AI API Config</string>
+    <string name="btn_fetch_models">Get Available Models</string>
+    <string name="btn_test_api">Test API Connection</string>
+    <string name="remote_connection_title">Remote Connection</string>
+    <string name="btn_configure_remote">Configure Remote Connection</string>
+    <string name="btn_save">Save</string>
+    <string name="err_fill_base_url_api_key">Please fill in Base URL and API Key first</string>
+    <string name="fetching_models">Fetching model list…</string>
+    <string name="models_fetched">Found %d available model(s)</string>
+    <string name="models_fetch_failed_http">Fetch failed (HTTP %d)\n%s</string>
+    <string name="models_fetch_failed">Fetch failed: %s</string>
+    <string name="err_fill_api_config">Please fill in the complete API configuration</string>
+    <string name="testing_connection">Testing connection…</string>
+    <string name="connection_success">Connection successful ✓\nModel reply: %s</string>
+    <string name="connection_failed_http">Connection failed (HTTP %d)\n%s</string>
+    <string name="connection_failed">Connection failed: %s</string>
+
+    <!-- Setup Kiosk Mode Activity -->
+    <string name="device_owner_mode_label">Device Owner Mode</string>
+    <string name="device_owner_not_enabled">Not enabled</string>
+    <string name="device_owner_enabled">Enabled</string>
+    <string name="btn_setup_device_owner">Set Up Device Owner</string>
+    <string name="btn_remove_device_owner">Remove Device Owner</string>
+    <string name="network_connection_label">Network Connection</string>
+    <string name="network_not_connected">Not connected</string>
+    <string name="network_connected">Connected</string>
+    <string name="btn_setup_network">Set Up Network</string>
+    <string name="remote_channel_label">Remote Connection</string>
+    <string name="remote_channel_single_note">Only one remote channel can be active at a time; switching will disconnect others.</string>
+    <string name="chat_history_label">Conversation History</string>
+    <string name="chat_history_note">Displays history only; input not supported. Use the configured remote channel (Telegram / Lark / ClawBot) to send commands and view AI responses here.</string>
+    <string name="btn_chat_history">Conversation History</string>
+    <string name="btn_ai_settings">AI Settings</string>
+    <string name="btn_configure_channel">Configure</string>
+    <string name="lark_chip_label">Lark</string>
+    <!-- Device owner dialogs -->
+    <string name="dialog_remove_device_owner_title">Remove Device Owner</string>
+    <string name="dialog_remove_device_owner_msg">Are you sure you want to remove the device owner? You will need to set it up again afterwards.</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="device_owner_removed">Device owner removed</string>
+    <string name="remove_device_owner_failed">Failed to remove device owner: %s</string>
+    <string name="dialog_setup_device_owner_title">Set Up Device Owner</string>
+    <string name="dialog_setup_device_owner_msg">Please follow these steps:\n\n1. Open Settings > About Phone\n2. Tap \"Build number\" 7 times to enable Developer Options\n3. Enable USB Debugging in Developer Options\n4. Connect to PC and run the following command:\n\n</string>
+    <string name="btn_open_developer_options">Open Developer Options</string>
+    <!-- Accessibility / permission dialogs -->
+    <string name="dialog_need_accessibility_title">Accessibility Service Required</string>
+    <string name="dialog_need_accessibility_msg">Andclaw needs the Accessibility Service to read the screen and perform actions. Please find Andclaw in Settings and enable it.</string>
+    <string name="dialog_need_storage_title">File Access Permission Required</string>
+    <string name="dialog_need_storage_msg">Andclaw needs "All Files Access" permission to read APK files in the Downloads folder for silent installation.</string>
+    <string name="dialog_need_overlay_title">Overlay Permission Required</string>
+    <string name="dialog_need_overlay_msg">Andclaw needs "Display over other apps" permission to show the emergency stop button. Please find Andclaw in Settings and allow it.</string>
+    <string name="btn_go_to_settings">Go to Settings</string>
+    <string name="btn_skip_for_now">Skip for Now</string>
+    <!-- Bridge / login status labels -->
+    <string name="status_not_configured">Not configured</string>
+    <string name="status_stopped">Stopped</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="login_status_need_login">Login required</string>
+    <string name="login_status_qr_ready">QR ready</string>
+    <string name="login_status_waiting_confirm">Waiting for confirmation</string>
+    <string name="login_status_logged_in">Logged in</string>
+    <string name="bridge_status_format">Bridge: %1$s · Login: %2$s</string>
+    <string name="bridge_status_format_kiosk">Bridge %1$s · Login %2$s</string>
+    <string name="channel_status_format">Current: %1$s · %2$s</string>
+    <string name="feishu_label">Lark</string>
+
+    <!-- Remote Channel Settings Activity -->
+    <string name="remote_channel_settings_title">Remote Connection</string>
+    <string name="channel_type_label">Channel Type</string>
+    <string name="channel_single_note">Only one remote channel can be active at a time; switching will disconnect others. Only the selected channel\'s configuration is shown below.</string>
+    <string name="tg_config_label">Telegram Config</string>
+    <string name="tg_chat_id_hint">Telegram Allowed Chat ID (0 = no restriction)</string>
+    <string name="btn_test_telegram">Test Telegram Bot</string>
+    <string name="clawbot_label">ClawBot (WeChat)</string>
+    <string name="btn_clawbot_login">Scan QR to Login</string>
+    <string name="btn_re_login">Re-login</string>
+    <string name="btn_clawbot_clear_login">Clear Login</string>
+    <string name="clawbot_login_cleared">ClawBot login state cleared</string>
+    <string name="clawbot_qr_content_desc">ClawBot login QR code</string>
+    <string name="clawbot_qr_hint">Please open WeChat "ClawBot Plugin" to scan the QR code above</string>
+    <string name="clawbot_fetching_qr">Fetching QR code…</string>
+    <string name="clawbot_waiting_scan">Waiting for scan…</string>
+    <string name="clawbot_scanned_confirm">Scanned — please confirm in WeChat…</string>
+    <string name="clawbot_login_success">Login successful ✓</string>
+    <string name="clawbot_incomplete_credentials">Login confirmed but credentials incomplete, please retry</string>
+    <string name="clawbot_qr_expired_refresh">QR code expired, refreshing… (%1$d/%2$d)</string>
+    <string name="clawbot_unknown_status">Unknown status received, please retry</string>
+    <string name="clawbot_login_timeout">Login timed out, please scan QR code again</string>
+    <string name="clawbot_refresh_qr">Waiting timed out, refreshing QR code…</string>
+    <string name="clawbot_too_many_retries">QR code expired too many times, please try again later</string>
+    <string name="clawbot_login_failed">Login failed: %s</string>
+    <string name="clawbot_login_cancelled">Login cancelled</string>
+    <string name="feishu_config_label">Lark Config</string>
+    <string name="feishu_app_id_hint">Lark App ID</string>
+    <string name="feishu_app_secret_hint">Lark App Secret</string>
+    <string name="btn_test_feishu">Test Lark Connection</string>
+    <!-- Telegram test results -->
+    <string name="tg_err_fill_token">Please fill in the Telegram Bot Token</string>
+    <string name="tg_testing">Testing connection…</string>
+    <string name="tg_success">Connection successful ✓\nBot: %1$s (@%2$s)</string>
+    <string name="tg_invalid_token">Invalid token: %s</string>
+    <string name="tg_failed_http">Connection failed (HTTP %d)\n%s</string>
+    <string name="start_chat_failed">Failed to open conversation page: %s</string>
+    <string name="start_test_failed">Failed to open test page: %s</string>
 
 </resources>

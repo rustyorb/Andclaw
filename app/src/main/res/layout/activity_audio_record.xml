@@ -13,7 +13,7 @@
         android:background="@color/background"
         app:navigationIcon="@drawable/ic_close"
         app:navigationIconTint="@color/text_primary"
-        app:title="录音"
+        app:title="@string/audio_record_title"
         app:titleTextColor="@color/text_primary" />
 
     <LinearLayout
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_sm"
-            android:text="录音就绪"
+            android:text="@string/audio_record_ready"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="@color/text_primary" />
 
@@ -59,8 +59,8 @@
                 android:id="@+id/btnStartRecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="开始录音按钮"
-                android:text="开始录音"
+                android:contentDescription="@string/btn_start_audio_record_desc"
+                android:text="@string/btn_start_audio_record"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -68,9 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:contentDescription="停止录音按钮"
+                android:contentDescription="@string/btn_stop_audio_record_desc"
                 android:enabled="false"
-                android:text="停止录音"
+                android:text="@string/btn_stop_audio_record"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

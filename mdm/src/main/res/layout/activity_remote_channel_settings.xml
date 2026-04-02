@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIconTint="@color/mdm_text_primary"
-                app:title="远程连接"
+                app:title="@string/remote_channel_settings_title"
                 app:titleTextAppearance="@style/TextAppearance.Mdm.Title"
                 app:titleTextColor="@color/mdm_text_primary" />
 
@@ -59,7 +59,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="连接方式"
+                            android:text="@string/channel_type_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_primary" />
 
@@ -67,7 +67,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_sm"
-                            android:text="仅能同时启用一种远程连接；切换后其他通道会断开。下方仅展示当前所选通道的配置。"
+                            android:text="@string/channel_single_note"
                             android:textAppearance="@style/TextAppearance.Mdm.Body"
                             android:textColor="@color/mdm_text_secondary" />
 
@@ -91,7 +91,7 @@
                                 style="@style/Widget.Material3.Chip.Filter"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="飞书" />
+                                android:text="@string/lark_chip_label" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_clawbot"
@@ -128,7 +128,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Telegram 配置"
+                            android:text="@string/tg_config_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_primary" />
 
@@ -156,7 +156,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:hint="Telegram Allowed Chat ID (0 = 不限制)"
+                            android:hint="@string/tg_chat_id_hint"
                             app:boxStrokeColor="@color/mdm_primary"
                             app:hintTextColor="@color/mdm_text_secondary">
 
@@ -175,7 +175,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="测试 Telegram Bot"
+                            android:text="@string/btn_test_telegram"
                             app:strokeColor="@color/mdm_primary" />
 
                         <TextView
@@ -211,7 +211,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ClawBot（微信）"
+                            android:text="@string/clawbot_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_secondary" />
 
@@ -230,7 +230,7 @@
                             android:layout_height="240dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="16dp"
-                            android:contentDescription="ClawBot 登录二维码"
+                            android:contentDescription="@string/clawbot_qr_content_desc"
                             android:scaleType="fitCenter"
                             android:visibility="gone" />
 
@@ -258,7 +258,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="4dp"
                                 android:layout_weight="1"
-                                android:text="扫码登录"
+                                android:text="@string/btn_clawbot_login"
                                 app:strokeColor="@color/mdm_secondary" />
 
                             <com.google.android.material.button.MaterialButton
@@ -268,7 +268,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:layout_weight="1"
-                                android:text="清除登录"
+                                android:text="@string/btn_clawbot_clear_login"
                                 app:strokeColor="@color/mdm_error" />
 
                         </LinearLayout>
@@ -306,7 +306,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="飞书配置"
+                            android:text="@string/feishu_config_label"
                             android:textAppearance="@style/TextAppearance.Mdm.Title"
                             android:textColor="@color/mdm_tertiary" />
 
@@ -324,7 +324,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:hint="飞书 App ID"
+                            android:hint="@string/feishu_app_id_hint"
                             app:boxStrokeColor="@color/mdm_tertiary"
                             app:hintTextColor="@color/mdm_text_secondary">
 
@@ -342,7 +342,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:hint="飞书 App Secret"
+                            android:hint="@string/feishu_app_secret_hint"
                             app:boxStrokeColor="@color/mdm_tertiary"
                             app:endIconMode="password_toggle"
                             app:hintTextColor="@color/mdm_text_secondary">
@@ -362,7 +362,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="测试飞书连接"
+                            android:text="@string/btn_test_feishu"
                             app:strokeColor="@color/mdm_tertiary" />
 
                         <TextView
@@ -394,7 +394,7 @@
             android:layout_height="56dp"
             android:layout_gravity="bottom"
             android:layout_margin="16dp"
-            android:text="保存"
+            android:text="@string/btn_save"
             android:textSize="16sp"
             app:backgroundTint="@color/mdm_primary"
             app:cornerRadius="@dimen/radius_md" />
